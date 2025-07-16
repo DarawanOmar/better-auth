@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 // If your Prisma file is located elsewhere, you can change the path
 import db from "./lib/prisma";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   database: prismaAdapter(db, {
@@ -14,7 +15,6 @@ export const auth = betterAuth({
     autoSignIn: true,
   },
 
-  // This is For user signup with email and password and when login it with google automatically linked account
   account: {
     accountLinking: {
       enabled: true,
@@ -30,4 +30,5 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  plugins: [nextCookies()],
 });

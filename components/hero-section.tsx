@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import ButtonModeVibe from "./theme/button-mode-vibe";
 
 const menuItems = [
   { name: "Features", href: "#" },
@@ -70,6 +71,7 @@ export default function HeroSection() {
                       <span>Sign Up</span>
                     </Link>
                   </Button>
+                  <ButtonModeVibe />
                 </div>
               </div>
             </div>
@@ -145,7 +147,7 @@ export default function HeroSection() {
                   />
                   <Image
                     className="rounded-(--radius) z-1 relative hidden border dark:block"
-                    src="/dark-card.webp"
+                    src="/card-dark.png"
                     alt="Tailark hero section"
                     width={2880}
                     height={2074}

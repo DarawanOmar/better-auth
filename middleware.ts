@@ -5,6 +5,8 @@ import { auth } from "./auth";
 type Session = typeof auth.$Infer.Session;
 
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
   const { data: session } = await betterFetch<Session>(
     "/api/auth/get-session",
     {
@@ -14,14 +16,23 @@ export async function middleware(request: NextRequest) {
       },
     }
   );
+  console.log("pathname => ", pathname);
 
-  if (!session) {
+  if (pathname !== "/sign-in" && !session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
+  if (pathname === "/sign-in" && session) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+  if (pathname === "/sign-up" && session) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard"], // Apply middleware to specific routes
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon\\.ico|manifest\\.webmanifest|static|.*\\..*).*)",
+  ],
 };

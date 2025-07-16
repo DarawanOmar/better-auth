@@ -4,13 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github } from "lucide-react";
 import Link from "next/link";
-import { signUp } from "../action";
+import { signIn } from "../action";
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
     <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
       <form
-        action={signUp}
+        action={signIn}
         className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]"
       >
         <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
@@ -18,28 +18,13 @@ export default function SignUpPage() {
             <Link href="/" aria-label="go home" className="mx-auto block w-fit">
               <LogoIcon />
             </Link>
-            <h1 className="text-title mb-1 mt-4 text-xl font-semibold">
-              Create a Tailark Account
+            <h1 className="mb-1 mt-4 text-xl font-semibold">
+              Sign In to Tailark
             </h1>
-            <p className="text-sm">Welcome! Create an account to get started</p>
+            <p className="text-sm">Welcome back! Sign in to continue</p>
           </div>
 
           <div className="mt-6 space-y-6">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <Label htmlFor="firstname" className="block text-sm">
-                  Firstname
-                </Label>
-                <Input type="text" required name="firstname" id="firstname" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastname" className="block text-sm">
-                  Lastname
-                </Label>
-                <Input type="text" required name="lastname" id="lastname" />
-              </div>
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="email" className="block text-sm">
                 Email
@@ -117,9 +102,9 @@ export default function SignUpPage() {
 
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
-            Have an account ?
+            Don't have an account ?
             <Button asChild variant="link" className="px-2">
-              <Link href="/sign-in">Sign In</Link>
+              <Link href="/sign-up">Create account</Link>
             </Button>
           </p>
         </div>
