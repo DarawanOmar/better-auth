@@ -1,6 +1,5 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-// If your Prisma file is located elsewhere, you can change the path
 import db from "./lib/prisma";
 import { nextCookies } from "better-auth/next-js";
 
@@ -31,4 +30,17 @@ export const auth = betterAuth({
     },
   },
   plugins: [nextCookies()],
+  advanced: {
+    cookies: {
+      session_token: {
+        name: "BirgaAuthSession",
+        attributes: {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 86400, // 1 Day
+        },
+      },
+    },
+  },
 });

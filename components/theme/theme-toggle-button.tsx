@@ -68,7 +68,7 @@ export default function ThemeToggleButton({
   return (
     <Button
       onClick={toggleTheme}
-      variant="outline"
+      variant="ghost"
       size="icon"
       className="relative "
       name="Theme Toggle Button"
