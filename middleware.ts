@@ -18,16 +18,16 @@ export async function middleware(request: NextRequest) {
   );
   console.log("pathname => ", pathname);
 
-  if (pathname !== "/sign-in" && !session) {
+  if (pathname !== "/sign-in" && pathname !== "/sign-up" && !session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  if (pathname === "/sign-in" && session) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-  if (pathname === "/sign-up" && session) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (pathname === "/sign-in" && session) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
+  // if (pathname === "/sign-up" && session) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
   return NextResponse.next();
 }
 

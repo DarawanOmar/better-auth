@@ -48,3 +48,22 @@ export async function signUp(formData: FormData) {
   }
   redirect("/");
 }
+export async function signInGithub() {
+  try {
+    await auth.api.signInSocial({ body: { provider: "github" } });
+  } catch (error) {
+    console.error("Error during sign-in:", error);
+    throw new Error("Sign-in failed");
+  }
+  redirect("/");
+}
+
+export async function signInGoogle() {
+  try {
+    await auth.api.signInSocial({ body: { provider: "google" } });
+  } catch (error) {
+    console.error("Error during sign-in:", error);
+    throw new Error("Sign-in failed");
+  }
+  redirect("/");
+}

@@ -1,11 +1,13 @@
 "use client";
 import { Logo } from "@/components/logo";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { LogOut, LucideLoaderCircle, Menu, X } from "lucide-react";
 import Image from "next/image";
 import ButtonModeVibe from "./theme/button-mode-vibe";
+import { signOut, useSession } from "@/lib/auth-client";
+import { Skeleton } from "./ui/skeleton";
 
 const menuItems = [
   { name: "Features", href: "#" },
@@ -16,6 +18,13 @@ const menuItems = [
 
 export default function HeroSection() {
   const [menuState, setMenuState] = useState(false);
+  const [penddig, setPending] = useTransition();
+  const session = useSession();
+  const handleLogout = () => {
+    setPending(async () => {
+      await signOut();
+    });
+  };
   return (
     <>
       <header>
@@ -59,20 +68,58 @@ export default function HeroSection() {
                     ))}
                   </ul>
                 </div>
-
-                <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
-                  <Button asChild variant="outline" size="sm">
-                    <Link href="/sign-in">
-                      <span>Sign In</span>
-                    </Link>
-                  </Button>
-                  <Button asChild size="sm">
-                    <Link href="/sign-up">
-                      <span>Sign Up</span>
-                    </Link>
-                  </Button>
-                  <ButtonModeVibe />
-                </div>
+                {session.isPending ? (
+                  <div className="flex gap-2 items-center">
+                    <Skeleton className="rounded-full size-8" />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={true}
+                      aria-disabled={true}
+                      className="cursor-pointer"
+                    >
+                      <LogOut />
+                    </Button>
+                  </div>
+                ) : session.data?.user ? (
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={session.data.user.image || "/card.png"}
+                      alt={session.data.user.name}
+                      width={32}
+                      height={32}
+                      className="rounded-full size-8"
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleLogout}
+                      disabled={penddig}
+                      aria-disabled={penddig}
+                      className="cursor-pointer"
+                    >
+                      {penddig ? (
+                        <LucideLoaderCircle className="animate-spin duration-500" />
+                      ) : (
+                        <LogOut />
+                      )}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit lg:border-l lg:pl-6">
+                    <Button asChild variant="outline" size="sm">
+                      <Link href="/sign-in">
+                        <span>Sign In</span>
+                      </Link>
+                    </Button>
+                    <Button asChild size="sm">
+                      <Link href="/sign-up">
+                        <span>Sign Up</span>
+                      </Link>
+                    </Button>
+                    <ButtonModeVibe />
+                  </div>
+                )}
               </div>
             </div>
           </div>
