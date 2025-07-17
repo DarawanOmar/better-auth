@@ -18,7 +18,12 @@ export async function middleware(request: NextRequest) {
   );
   console.log("pathname => ", pathname);
 
-  if (pathname !== "/sign-in" && pathname !== "/sign-up" && !session) {
+  if (
+    pathname !== "/sign-in" &&
+    pathname !== "/sign-up" &&
+    pathname !== "/forgot-password" &&
+    !session
+  ) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 

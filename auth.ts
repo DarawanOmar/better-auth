@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import db from "./lib/prisma";
 import { nextCookies } from "better-auth/next-js";
+import { emailOTP } from "better-auth/plugins/email-otp";
 
 export const auth = betterAuth({
   database: prismaAdapter(db, {
@@ -12,6 +13,7 @@ export const auth = betterAuth({
     maxPasswordLength: 128,
     minPasswordLength: 8,
     autoSignIn: true,
+    resetPasswordTokenExpiresIn: 3600, // 1 hour
   },
 
   account: {
@@ -29,7 +31,23 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
-  plugins: [nextCookies()],
+  plugins: [
+    nextCookies(),
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        if (type === "sign-in") {
+          // Send the OTP for sign-in
+        } else if (type === "email-verification") {
+          // Send the OTP for email verification
+        } else {
+          // Send the OTP for password reset
+        }
+      },
+      otpLength: 8,
+      expiresIn: 600,
+      allowedAttempts: 5,
+    }),
+  ],
   advanced: {
     cookies: {
       session_token: {
