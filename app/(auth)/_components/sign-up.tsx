@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github } from "lucide-react";
 import Link from "next/link";
-import { signUp } from "../action";
+import { signUp } from "../_action";
 import { signIn as signInClient } from "@/lib/auth-client";
 import SocialButtons from "../sign-in/_components/socail-buttons";
 export default function SignUpPage() {
